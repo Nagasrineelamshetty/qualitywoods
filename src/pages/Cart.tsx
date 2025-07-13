@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Trash2, Plus, Minus, ShoppingBag, Users } from 'lucide-react';
@@ -69,6 +68,11 @@ const Cart = () => {
       </div>
     );
   }
+
+  const calculateTax = (subtotal: number) => subtotal * 0.18; // 18% GST
+  const shipping = state.total > 50000 ? 0 : 2000; // Free shipping above ₹50,000
+  const tax = calculateTax(state.total);
+  const total = state.total + tax + shipping;
 
   return (
     <div className="min-h-screen bg-stone-50 py-8">
