@@ -38,32 +38,14 @@ const About = () => {
     }
   ];
 
-  const locations = [
-    {
-      name: 'Main Showroom & Workshop',
-      address: '123 Furniture Street, Craftsman District, Mumbai 400001',
-      phone: '+91 98765 43210',
-      email: 'mumbai@furniturecraft.com',
-      hours: 'Mon-Sat: 9:00 AM - 7:00 PM, Sun: 10:00 AM - 6:00 PM',
-      image: 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=400&h=300&fit=crop'
-    },
-    {
-      name: 'Design Studio',
-      address: '456 Design Avenue, Creative Hub, Delhi 110001',
-      phone: '+91 87654 32109',
-      email: 'delhi@furniturecraft.com',
-      hours: 'Mon-Sat: 10:00 AM - 8:00 PM, Sun: 11:00 AM - 6:00 PM',
-      image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=400&h=300&fit=crop'
-    },
-    {
-      name: 'South Branch',
-      address: '789 Heritage Road, Artisan Quarter, Bangalore 560001',
-      phone: '+91 76543 21098',
-      email: 'bangalore@furniturecraft.com',
-      hours: 'Mon-Sat: 9:30 AM - 7:30 PM, Sun: 10:30 AM - 6:30 PM',
-      image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=400&h=300&fit=crop'
-    }
-  ];
+  const showroom = {
+    name: 'Main Showroom & Workshop',
+    address: '123 Furniture Street, Craftsman District, Mumbai 400001',
+    phone: '+91 98765 43210',
+    email: 'info@furniturecraft.com',
+    hours: 'Mon-Sat: 9:00 AM - 7:00 PM, Sun: 10:00 AM - 6:00 PM',
+    image: 'https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=600&h=400&fit=crop'
+  };
 
   return (
     <div className="min-h-screen bg-stone-50">
@@ -159,55 +141,69 @@ const About = () => {
         </div>
       </section>
 
-      {/* Our Locations Section */}
+      {/* Our Showroom Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-amber-900 mb-4">Visit Our Showrooms</h2>
+            <h2 className="text-4xl font-bold text-amber-900 mb-4">Visit Our Showroom</h2>
             <p className="text-xl text-stone-600 max-w-3xl mx-auto">
-              Experience our craftsmanship firsthand. Visit any of our showrooms to see our furniture, meet our team, and discuss your custom requirements.
+              Experience our craftsmanship firsthand. Visit our showroom to see our furniture, meet our team, and discuss your custom requirements.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {locations.map((location, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-lg transition-shadow">
-                <img
-                  src={location.image}
-                  alt={location.name}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-amber-900 mb-4">{location.name}</h3>
-                  
-                  <div className="space-y-3 text-stone-600">
-                    <div className="flex items-start">
-                      <MapPin className="w-5 h-5 text-amber-600 mt-0.5 mr-3 flex-shrink-0" />
-                      <span className="text-sm">{location.address}</span>
-                    </div>
-                    
-                    <div className="flex items-center">
-                      <Phone className="w-5 h-5 text-amber-600 mr-3 flex-shrink-0" />
-                      <span className="text-sm">{location.phone}</span>
-                    </div>
-                    
-                    <div className="flex items-center">
-                      <Mail className="w-5 h-5 text-amber-600 mr-3 flex-shrink-0" />
-                      <span className="text-sm">{location.email}</span>
-                    </div>
-                    
-                    <div className="flex items-start">
-                      <Clock className="w-5 h-5 text-amber-600 mt-0.5 mr-3 flex-shrink-0" />
-                      <span className="text-sm">{location.hours}</span>
-                    </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            {/* Showroom Details */}
+            <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+              <img
+                src={showroom.image}
+                alt={showroom.name}
+                className="w-full h-64 object-cover"
+              />
+              <div className="p-8">
+                <h3 className="text-2xl font-semibold text-amber-900 mb-6">{showroom.name}</h3>
+                
+                <div className="space-y-4 text-stone-600 mb-8">
+                  <div className="flex items-start">
+                    <MapPin className="w-6 h-6 text-amber-600 mt-0.5 mr-4 flex-shrink-0" />
+                    <span className="text-base">{showroom.address}</span>
                   </div>
                   
-                  <Button className="w-full mt-6 bg-amber-600 hover:bg-amber-700">
-                    Get Directions
-                  </Button>
+                  <div className="flex items-center">
+                    <Phone className="w-6 h-6 text-amber-600 mr-4 flex-shrink-0" />
+                    <span className="text-base">{showroom.phone}</span>
+                  </div>
+                  
+                  <div className="flex items-center">
+                    <Mail className="w-6 h-6 text-amber-600 mr-4 flex-shrink-0" />
+                    <span className="text-base">{showroom.email}</span>
+                  </div>
+                  
+                  <div className="flex items-start">
+                    <Clock className="w-6 h-6 text-amber-600 mt-0.5 mr-4 flex-shrink-0" />
+                    <span className="text-base">{showroom.hours}</span>
+                  </div>
                 </div>
-              </Card>
-            ))}
+                
+                <Button className="w-full bg-amber-600 hover:bg-amber-700 text-lg py-3">
+                  Get Directions
+                </Button>
+              </div>
+            </Card>
+
+            {/* Map */}
+            <div className="h-96 lg:h-full min-h-[400px]">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3771.8754435872844!2d72.8776849!3d19.0759837!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ceaeb7c8c2b1%3A0xe8e8e8e8e8e8e8e8!2sMumbai%2C%20Maharashtra%2C%20India!5e0!3m2!1sen!2sus!4v1640995200000!5m2!1sen!2sus"
+                width="100%"
+                height="100%"
+                style={{border: 0}}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="rounded-lg shadow-lg"
+                title="FurnitureCraft Showroom Location"
+              ></iframe>
+            </div>
           </div>
         </div>
       </section>
