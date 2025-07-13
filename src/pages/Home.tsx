@@ -1,7 +1,6 @@
-
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Star, Award, Clock, Truck } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Star, Award, Clock, Truck, Users, Heart, Hammer } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card } from '../components/ui/card';
 import { products, testimonials } from '../data/mockData';
@@ -31,6 +30,24 @@ const Home = () => {
       icon: Truck,
       title: 'Timely Delivery',
       description: 'Professional delivery and installation service right to your doorstep on schedule.'
+    }
+  ];
+
+  const aboutValues = [
+    {
+      icon: Heart,
+      title: 'Family Values',
+      description: 'Built on trust, integrity, and the belief that every home deserves beautiful, lasting furniture.'
+    },
+    {
+      icon: Hammer,
+      title: 'Expert Craftsmanship',
+      description: 'Three generations of woodworking expertise passed down through skilled artisan hands.'
+    },
+    {
+      icon: Users,
+      title: 'Personal Service',
+      description: 'We treat every customer like family, ensuring personalized attention from design to delivery.'
     }
   ];
 
@@ -121,6 +138,82 @@ const Home = () => {
               }`}
             />
           ))}
+        </div>
+      </section>
+
+      {/* About Us Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <h2 className="text-4xl font-bold text-amber-900 mb-6">Our Story</h2>
+              <p className="text-lg text-stone-600 mb-6 leading-relaxed">
+                Founded in 1998 by the Kumar family, FurnitureCraft began as a small workshop with a simple mission: 
+                to create beautiful, lasting furniture that transforms houses into homes. What started with a father 
+                and son crafting wooden chairs has grown into a trusted name in custom furniture design.
+              </p>
+              <p className="text-lg text-stone-600 mb-8 leading-relaxed">
+                Today, we're proud to be a three-generation family business, combining traditional woodworking 
+                techniques with modern design sensibilities. Every piece we create tells a story of dedication, 
+                craftsmanship, and the belief that quality furniture should last for generations.
+              </p>
+              <div className="flex items-center space-x-8">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-amber-600">25+</div>
+                  <div className="text-stone-600">Years Experience</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-amber-600">1000+</div>
+                  <div className="text-stone-600">Happy Families</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-amber-600">50+</div>
+                  <div className="text-stone-600">Skilled Artisans</div>
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 gap-4">
+              <img
+                src="https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?w=600&h=300&fit=crop"
+                alt="Our workshop"
+                className="rounded-lg shadow-lg"
+              />
+              <div className="grid grid-cols-2 gap-4">
+                <img
+                  src="https://images.unsplash.com/photo-1472396961693-142e6e269027?w=300&h=200&fit=crop"
+                  alt="Craftsmanship detail"
+                  className="rounded-lg shadow-lg"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=300&h=200&fit=crop"
+                  alt="Finished furniture"
+                  className="rounded-lg shadow-lg"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Values Section */}
+          <div className="mt-20">
+            <div className="text-center mb-16">
+              <h3 className="text-3xl font-bold text-amber-900 mb-4">Our Values</h3>
+              <p className="text-xl text-stone-600 max-w-3xl mx-auto">
+                The principles that guide everything we do, from the first sketch to the final delivery.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {aboutValues.map((value, index) => (
+                <Card key={index} className="p-8 text-center hover:shadow-lg transition-shadow bg-amber-50 border-amber-100">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-amber-100 rounded-full mb-6">
+                    <value.icon className="w-8 h-8 text-amber-600" />
+                  </div>
+                  <h4 className="text-xl font-semibold text-amber-900 mb-4">{value.title}</h4>
+                  <p className="text-stone-600 leading-relaxed">{value.description}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
