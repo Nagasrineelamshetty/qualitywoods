@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, ShoppingCart, User, LogOut } from 'lucide-react';
@@ -31,6 +30,9 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-amber-700 hover:text-amber-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">
               Home
+            </Link>
+            <Link to="/about" className="text-amber-700 hover:text-amber-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+              About Us
             </Link>
             <Link to="/products" className="text-amber-700 hover:text-amber-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">
               Products
@@ -99,6 +101,9 @@ const Navbar = () => {
           <div className="px-2 pt-2 pb-3 space-y-1">
             <Link to="/" className="block px-3 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md">
               Home
+            </Link>
+            <Link to="/about" className="block px-3 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md">
+              About Us
             </Link>
             <Link to="/products" className="block px-3 py-2 text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md">
               Products
