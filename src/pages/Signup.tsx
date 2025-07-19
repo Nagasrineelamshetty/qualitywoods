@@ -52,11 +52,11 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      const success = await signup(formData.email, formData.password, formData.name);
+      const success = await signup(formData.name, formData.email, formData.password);
       if (success) {
         toast({
           title: "Account Created Successfully",
-          description: "Welcome to FurnitureCraft! You're now signed in."
+          description: "Welcome to QualityWoods! You're now signed in."
         });
         navigate('/');
       } else {

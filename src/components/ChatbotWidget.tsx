@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { MessageCircle, X, Send } from 'lucide-react';
 import { Button } from './ui/button';
@@ -15,55 +14,9 @@ const ChatbotWidget = () => {
     }
   ]);
   const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const quickQuestions = [
-    "Where is my order?",
-    "What woods do you use?",
-    "Can I request a custom size?",
-    "What's your delivery time?",
-    "Do you offer installation?"
-  ];
-
-  const handleQuickQuestion = (question: string) => {
-    const userMessage = {
-      id: messages.length + 1,
-      text: question,
-      isBot: false,
-      timestamp: new Date()
-    };
-
-    let botResponse = "";
-    switch (question) {
-      case "Where is my order?":
-        botResponse = "You can track your order status on our tracking page. Please enter your order ID to get real-time updates.";
-        break;
-      case "What woods do you use?":
-        botResponse = "We use premium quality woods including Teak, Mahogany, Oak, Sheesham, and Pine. All our wood is sustainably sourced.";
-        break;
-      case "Can I request a custom size?":
-        botResponse = "Absolutely! We specialize in custom furniture. You can specify your exact dimensions when placing an order.";
-        break;
-      case "What's your delivery time?":
-        botResponse = "Standard delivery is 3-4 weeks. Custom pieces may take 4-6 weeks depending on complexity.";
-        break;
-      case "Do you offer installation?":
-        botResponse = "Yes, we provide professional installation service for all our furniture at no extra cost within city limits.";
-        break;
-      default:
-        botResponse = "Thank you for your question. Our team will get back to you soon!";
-    }
-
-    const botMessage = {
-      id: messages.length + 2,
-      text: botResponse,
-      isBot: true,
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage, botMessage]);
-  };
-
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (!input.trim()) return;
 
     const userMessage = {
@@ -73,15 +26,40 @@ const ChatbotWidget = () => {
       timestamp: new Date()
     };
 
-    const botMessage = {
-      id: messages.length + 2,
-      text: "Thank you for your message! Our customer service team will get back to you within 24 hours.",
-      isBot: true,
-      timestamp: new Date()
-    };
-
-    setMessages(prev => [...prev, userMessage, botMessage]);
+    setMessages(prev => [...prev, userMessage]);
     setInput('');
+    setLoading(true);
+
+    try {
+      const res = await fetch('http://localhost:5000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: input })
+      });
+
+      const data = await res.json();
+
+      const botMessage = {
+        id: messages.length + 2,
+        text: data.response || "Sorry, I couldn't find an answer to that.",
+        isBot: true,
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, botMessage]);
+    } catch (err) {
+      setMessages(prev => [
+        ...prev,
+        {
+          id: messages.length + 2,
+          text: 'Something went wrong while fetching the answer.',
+          isBot: true,
+          timestamp: new Date()
+        }
+      ]);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -100,8 +78,8 @@ const ChatbotWidget = () => {
         <Card className="fixed bottom-24 right-6 w-80 h-96 bg-white shadow-xl border border-amber-200 z-50 flex flex-col">
           {/* Header */}
           <div className="bg-amber-600 text-white p-4 rounded-t-lg">
-            <h3 className="font-semibold">FurnitureCraft Support</h3>
-            <p className="text-sm text-amber-100">We're here to help!</p>
+            <h3 className="font-semibold">Quality Woods Support</h3>
+            <p className="text-sm text-amber-100">Ask anything about our furniture!</p>
           </div>
 
           {/* Messages */}
@@ -122,21 +100,8 @@ const ChatbotWidget = () => {
                 </div>
               </div>
             ))}
-
-            {/* Quick Questions */}
-            {messages.length === 1 && (
-              <div className="space-y-2">
-                <p className="text-xs text-gray-500 text-center">Quick questions:</p>
-                {quickQuestions.map((question, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleQuickQuestion(question)}
-                    className="block w-full text-left text-xs bg-amber-50 hover:bg-amber-100 p-2 rounded border border-amber-200 text-amber-700 transition-colors"
-                  >
-                    {question}
-                  </button>
-                ))}
-              </div>
+            {loading && (
+              <div className="text-xs text-gray-500">Typing...</div>
             )}
           </div>
 
@@ -148,13 +113,14 @@ const ChatbotWidget = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
-                placeholder="Type your message..."
+                placeholder="Type your question..."
                 className="flex-1 p-2 text-sm border border-amber-200 rounded-md focus:outline-none focus:ring-2 focus:ring-amber-500"
               />
               <Button
                 onClick={handleSendMessage}
                 size="sm"
                 className="bg-amber-600 hover:bg-amber-700"
+                disabled={loading}
               >
                 <Send size={16} />
               </Button>

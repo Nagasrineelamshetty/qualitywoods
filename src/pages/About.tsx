@@ -67,7 +67,7 @@ const About = () => {
               <h2 className="text-4xl font-bold text-amber-900 mb-6">Our Story</h2>
               <div className="space-y-6">
                 <p className="text-lg text-stone-600 leading-relaxed">
-                  Founded in 1998 by Rajesh Kumar, FurnitureCraft began as a small workshop in Mumbai with a simple yet powerful vision: to create furniture that doesn't just fill spaces, but enriches lives. What started with a father and son crafting wooden chairs in a modest garage has blossomed into a trusted name across India.
+                  Founded in 1998 by Neelamshetty Appa Rao, QualityWoods began as a small workshop in Mumbai with a simple yet powerful vision: to create furniture that doesn't just fill spaces, but enriches lives. What started with a father and son crafting wooden chairs in a modest garage has blossomed into a trusted name across India.
                 </p>
                 <p className="text-lg text-stone-600 leading-relaxed">
                   Today, we're proud to be a three-generation family business. Rajesh's son, Amit Kumar, brought modern design sensibilities and business acumen, while his grandson, Arjun Kumar, has introduced sustainable practices and digital innovation. Together, they've built a legacy that honors traditional woodworking while embracing contemporary needs.
@@ -208,25 +208,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-20 bg-amber-900 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6">Ready to Create Your Dream Space?</h2>
-          <p className="text-xl text-amber-100 mb-8">
-            Let's discuss your vision and bring it to life with our expert craftsmanship and personalized service.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/products">
-              <Button size="lg" className="bg-white text-amber-900 hover:bg-amber-50 px-8 py-3 text-lg">
-                Browse Products
-              </Button>
-            </Link>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-amber-900 px-8 py-3 text-lg">
-              Schedule Visit
-            </Button>
-          </div>
-        </div>
-      </section>
+      
     </div>
   );
 };

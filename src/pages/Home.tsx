@@ -10,9 +10,9 @@ const Home = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   const heroImages = [
-    'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=1200&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=1200&h=600&fit=crop',
-    'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200&h=600&fit=crop'
+    '/image_carousel1.jpg',
+    '/image_carousel2.jpg',
+    '/image_carousel3.jpg'
   ];
 
   const features = [
@@ -104,11 +104,7 @@ const Home = () => {
                   Shop Now
                 </Button>
               </Link>
-              <Link to="/products">
-                <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-amber-900 px-8 py-3 text-lg">
-                  Get a Quote
-                </Button>
-              </Link>
+              
             </div>
           </div>
         </div>
@@ -148,7 +144,7 @@ const Home = () => {
             <div>
               <h2 className="text-4xl font-bold text-amber-900 mb-6">Our Story</h2>
               <p className="text-lg text-stone-600 mb-6 leading-relaxed">
-                Founded in 1998 by the Kumar family, FurnitureCraft began as a small workshop with a simple mission: 
+                Founded in 1990 by the Neelamshetty family, Quality Woods began as a small workshop with a simple mission: 
                 to create beautiful, lasting furniture that transforms houses into homes. What started with a father 
                 and son crafting wooden chairs has grown into a trusted name in custom furniture design.
               </p>
@@ -241,50 +237,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Featured Products */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-amber-900 mb-4">Featured Products</h2>
-            <p className="text-xl text-stone-600">Discover our most popular handcrafted furniture pieces</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.slice(0, 6).map((product) => (
-              <Card key={product.id} className="overflow-hidden hover:shadow-lg transition-shadow group">
-                <div className="aspect-w-4 aspect-h-3 overflow-hidden">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold text-amber-900 mb-2">{product.name}</h3>
-                  <p className="text-stone-600 mb-4 line-clamp-2">{product.description}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-2xl font-bold text-amber-600">₹{product.price.toLocaleString()}</span>
-                    <Link to={`/products/${product.id}`}>
-                      <Button className="bg-amber-600 hover:bg-amber-700">
-                        Customize
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-              </Card>
-            ))}
-          </div>
-
-          <div className="text-center mt-12">
-            <Link to="/products">
-              <Button size="lg" variant="outline" className="border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white">
-                View All Products
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-
+      
       {/* Testimonials */}
       <section className="py-20 bg-amber-50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -342,7 +295,7 @@ const Home = () => {
                 Start Shopping
               </Button>
             </Link>
-            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-amber-900 px-8 py-3 text-lg">
+            <Button size="lg" className="bg-white text-amber-900 hover:bg-amber px-8 py-3 text-lg">
               Schedule Consultation
             </Button>
           </div>

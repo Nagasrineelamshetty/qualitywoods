@@ -135,7 +135,7 @@ const Products = () => {
                     <span className="text-2xl font-bold text-amber-600">₹{product.price.toLocaleString()}</span>
                     <Link to={`/products/${product.id}`}>
                       <Button className="bg-amber-600 hover:bg-amber-700" disabled={!product.inStock}>
-                        {product.inStock ? 'Customize' : 'Notify Me'}
+                        {product.inStock ? 'Buy Now' : 'Notify Me'}
                       </Button>
                     </Link>
                   </div>

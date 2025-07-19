@@ -1,87 +1,86 @@
+// src/contexts/AuthContext.tsx
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import axios from '../api/axios';
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-
-interface User {
+type UserType = {
   id: string;
-  email: string;
   name: string;
-  isAdmin?: boolean;
-}
+  email: string;
+  isAdmin: boolean;
+};
 
 interface AuthContextType {
-  user: User | null;
+  user: UserType | null;
   login: (email: string, password: string) => Promise<boolean>;
-  signup: (email: string, password: string, name: string) => Promise<boolean>;
+  signup: (name: string, email: string, password: string) => Promise<boolean>;
   logout: () => void;
-  isAuthenticated: boolean;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserType | null>(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const userData = localStorage.getItem('user');
-    if (token && userData) {
-      setUser(JSON.parse(userData));
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
-    // Mock login - replace with actual API call
-    if (email === 'admin@furniturecraft.com' && password === 'admin123') {
-      const adminUser = { id: '1', email, name: 'Admin', isAdmin: true };
-      setUser(adminUser);
-      localStorage.setItem('token', 'mock-admin-token');
-      localStorage.setItem('user', JSON.stringify(adminUser));
+    try {
+      const res = await axios.post('/login', { email, password });
+      const { token, user } = res.data;
+
+      if (!token || !user) throw new Error("Invalid login response");
+
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      setUser(user);
+
       return true;
-    } else if (email && password) {
-      const regularUser = { id: '2', email, name: 'John Doe' };
-      setUser(regularUser);
-      localStorage.setItem('token', 'mock-user-token');
-      localStorage.setItem('user', JSON.stringify(regularUser));
-      return true;
+    } catch (error) {
+      console.error('Login Axios Error:', error);
+      return false;
     }
-    return false;
   };
 
-  const signup = async (email: string, password: string, name: string): Promise<boolean> => {
-    // Mock signup - replace with actual API call
-    if (email && password && name) {
-      const newUser = { id: Date.now().toString(), email, name };
-      setUser(newUser);
-      localStorage.setItem('token', 'mock-user-token');
-      localStorage.setItem('user', JSON.stringify(newUser));
+  const signup = async (name: string, email: string, password: string): Promise<boolean> => {
+    try {
+      const res = await axios.post('/signup', { name, email, password });
+      const { token, user } = res.data;
+
+      if (!token || !user) throw new Error("Invalid signup response");
+
+      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('token', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      setUser(user);
+
       return true;
+    } catch (error) {
+      console.error('Signup Axios Error:', error);
+      return false;
     }
-    return false;
   };
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    delete axios.defaults.headers.common['Authorization'];
   };
 
   return (
-    <AuthContext.Provider value={{
-      user,
-      login,
-      signup,
-      logout,
-      isAuthenticated: !!user
-    }}>
+    <AuthContext.Provider value={{ user, login, signup, logout }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
+export const useAuth = () => useContext(AuthContext);

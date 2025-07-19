@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
-            <h3 className="text-2xl font-bold mb-4">FurnitureCraft</h3>
+            <h3 className="text-2xl font-bold mb-4">Quality Woods</h3>
             <p className="text-amber-100 mb-4">
               Crafting comfort and delivering elegance since 1995. We're a family-run business 
               dedicated to creating custom furniture that transforms your house into a home.
@@ -37,17 +37,17 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center">
                 <Phone className="w-5 h-5 mr-3 text-amber-200" />
-                <span className="text-amber-100">+91 98765 43210</span>
+                <span className="text-amber-100">+91 9182658199, +91 9963699249</span>
               </div>
               <div className="flex items-center">
                 <Mail className="w-5 h-5 mr-3 text-amber-200" />
-                <span className="text-amber-100">info@furniturecraft.com</span>
+                <span className="text-amber-100">info@qualitywoods.com</span>
               </div>
               <div className="flex items-start">
                 <MapPin className="w-5 h-5 mr-3 mt-1 text-amber-200" />
                 <span className="text-amber-100">
                   123 Craft Street, Woodwork City,<br />
-                  Mumbai 400001, India
+                  Hyderabad 500036, India
                 </span>
               </div>
             </div>
@@ -56,7 +56,7 @@ const Footer = () => {
 
         <div className="border-t border-amber-800 mt-8 pt-8 text-center">
           <p className="text-amber-200">
-            © 2024 FurnitureCraft. All rights reserved. | Crafted with ❤️ for your home.
+            © 2024 QualityWoods. All rights reserved. | Crafted with ❤️ for your home.
           </p>
         </div>
       </div>

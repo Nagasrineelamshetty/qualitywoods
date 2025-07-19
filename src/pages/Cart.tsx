@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Trash2, Plus, Minus, ShoppingBag, Users } from 'lucide-react';
 import { Button } from '../components/ui/button';
@@ -11,6 +11,12 @@ const Cart = () => {
   const { state, removeItem, updateQuantity, clearCart } = useCart();
   const { isAuthenticated } = useAuth();
   const [collaborativeSession, setCollaborativeSession] = useState<string | null>(null);
+
+  // Recover session on reload
+  useEffect(() => {
+    const savedSession = localStorage.getItem("collaborativeSession");
+    if (savedSession) setCollaborativeSession(savedSession);
+  }, []);
 
   const handleQuantityChange = (id: string, newQuantity: number) => {
     if (newQuantity < 1) return;
@@ -26,10 +32,20 @@ const Cart = () => {
   };
 
   const startCollaborativeSession = () => {
+    if (!isAuthenticated) {
+      toast({
+        title: "Login Required",
+        description: "Please login to start collaborative shopping."
+      });
+      return;
+    }
+
     const sessionId = `cart-${Date.now()}`;
     setCollaborativeSession(sessionId);
+    localStorage.setItem("collaborativeSession", sessionId);
+
     const shareLink = `${window.location.origin}/collaborative-cart/${sessionId}`;
-    
+
     if (navigator.share) {
       navigator.share({
         title: 'Let\'s shop together!',
@@ -45,10 +61,10 @@ const Cart = () => {
     }
   };
 
-  const calculateTax = (subtotal: number) => subtotal * 0.18; // 18% GST
-  const shipping = state.total > 50000 ? 0 : 2000; // Free shipping above ₹50,000
-  const tax = calculateTax(state.total);
-  const total = state.total + tax + shipping;
+  const subtotal = state.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+  const tax = subtotal * 0.18;
+  const shipping = subtotal > 50000 ? 0 : 2000;
+  const total = subtotal + tax + shipping;
 
   if (state.items.length === 0) {
     return (
@@ -68,11 +84,6 @@ const Cart = () => {
       </div>
     );
   }
-
-  const calculateTax = (subtotal: number) => subtotal * 0.18; // 18% GST
-  const shipping = state.total > 50000 ? 0 : 2000; // Free shipping above ₹50,000
-  const tax = calculateTax(state.total);
-  const total = state.total + tax + shipping;
 
   return (
     <div className="min-h-screen bg-stone-50 py-8">
@@ -107,11 +118,11 @@ const Cart = () => {
                   <div className="flex-shrink-0">
                     <img
                       src={item.image}
-                      alt={item.name}
+                      alt={`${item.name} - ${item.id}`}
                       className="w-32 h-32 object-cover rounded-lg"
                     />
                   </div>
-                  
+
                   <div className="flex-1 space-y-4">
                     <div>
                       <h3 className="text-xl font-semibold text-amber-900">{item.name}</h3>
@@ -172,18 +183,18 @@ const Cart = () => {
           <div className="lg:col-span-1">
             <Card className="p-6 bg-white sticky top-8">
               <h2 className="text-xl font-semibold text-amber-900 mb-6">Order Summary</h2>
-              
+
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between">
                   <span className="text-stone-600">Subtotal ({state.items.length} items)</span>
-                  <span className="font-medium">₹{state.total.toLocaleString()}</span>
+                  <span className="font-medium">₹{subtotal.toLocaleString()}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <span className="text-stone-600">GST (18%)</span>
                   <span className="font-medium">₹{tax.toLocaleString()}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <span className="text-stone-600">Shipping</span>
                   <span className="font-medium">
@@ -198,7 +209,7 @@ const Cart = () => {
                 {shipping === 0 && (
                   <p className="text-sm text-green-600">✓ Free shipping on orders above ₹50,000</p>
                 )}
-                
+
                 <div className="border-t pt-4">
                   <div className="flex justify-between text-lg font-bold text-amber-900">
                     <span>Total</span>
@@ -221,15 +232,18 @@ const Cart = () => {
                     </Button>
                   </Link>
                 )}
-                
+
                 <Link to="/products">
-                  <Button variant="outline" size="lg" className="w-full border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white">
+                  <Button
+                    variant="outline"
+                    size="lg"
+                    className="w-full border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white"
+                  >
                     Continue Shopping
                   </Button>
                 </Link>
               </div>
 
-              {/* Trust Indicators */}
               <div className="mt-6 pt-6 border-t border-stone-200">
                 <div className="text-center space-y-2 text-sm text-stone-600">
                   <p>✓ Secure checkout with SSL encryption</p>
@@ -241,7 +255,6 @@ const Cart = () => {
           </div>
         </div>
 
-        {/* Collaborative Shopping Info */}
         {collaborativeSession && (
           <Card className="mt-8 p-6 bg-amber-50 border-amber-200">
             <div className="text-center">
