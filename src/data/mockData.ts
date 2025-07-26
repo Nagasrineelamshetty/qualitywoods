@@ -25,14 +25,11 @@ export const products = [
   },
   {
     id: '2',
-    name: 'Modern L-Shaped Sofa',
+    name: 'Sofa Set',
     category: 'Sofas',
     price: 65000,
-    image: 'https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop',
-    images: [
-      'https://images.unsplash.com/photo-1721322800607-8c38375eef04?w=800&h=600&fit=crop'
-    ],
-    description: 'Contemporary L-shaped sofa with premium fabric upholstery. Perfect for modern living rooms.',
+    image: 'sofa.jpg',
+    description: 'Contemporary sofa with premium fabric upholstery. Perfect for modern living rooms.',
     specifications: {
       material: 'Fabric & Wood Frame',
       dimensions: '8ft x 6ft',
@@ -50,10 +47,8 @@ export const products = [
     name: 'Modular Kitchen Set',
     category: 'Kitchen',
     price: 125000,
-    image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&h=600&fit=crop',
-    images: [
-      'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&h=600&fit=crop'
-    ],
+    image: 'dining_table.jpg',
+    
     description: 'Complete modular kitchen solution with modern cabinets, countertops, and storage solutions.',
     specifications: {
       material: 'Plywood & Laminate',
@@ -72,10 +67,8 @@ export const products = [
     name: 'Executive Office Desk',
     category: 'Office',
     price: 35000,
-    image: 'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop',
-    images: [
-      'https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop'
-    ],
+    image: 'laptop_desk.jpg',
+    
     description: 'Professional executive desk with ample storage and cable management. Perfect for home office.',
     specifications: {
       material: 'Engineered Wood',
@@ -116,10 +109,8 @@ export const products = [
     name: 'Dining Table Set',
     category: 'Dining',
     price: 42000,
-    image: 'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&h=600&fit=crop',
-    images: [
-      'https://images.unsplash.com/photo-1472396961693-142e6e269027?w=800&h=600&fit=crop'
-    ],
+    image: 'dining_table.jpg',
+  
     description: '6-seater dining table set with matching chairs. Perfect for family gatherings.',
     specifications: {
       material: 'Solid Wood',

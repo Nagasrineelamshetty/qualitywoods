@@ -17,30 +17,30 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-amber-100 shadow-md sticky top-0 z-50">
+    <nav className="bg-amber-50 shadow-md sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <Link to="/" className="flex-shrink-0 flex items-center">
-              <span className="text-3xl font-extrabold text-amber-800">Quality Woods</span>
+              <span className="text-3xl font-bold text-amber-1000">QUALITY WOODS</span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="text-amber-700 hover:text-amber-900 px-3 py-2 rounded-md text-base font-medium transition-colors">
+            <Link to="/" className="text-amber-900 hover:text-amber-900 px-3 py-2 rounded-md text-base font-medium transition-colors">
               Home
             </Link>
-            <Link to="/about" className="text-amber-700 hover:text-amber-900 px-3 py-2 rounded-md text-base font-medium transition-colors">
+            <Link to="/about" className="text-amber-900 hover:text-amber-900 px-3 py-2 rounded-md text-base font-medium transition-colors">
               About Us
             </Link>
-            <Link to="/products" className="text-amber-700 hover:text-amber-900 px-3 py-2 rounded-md text-base font-medium transition-colors">
+            <Link to="/products" className="text-amber-900 hover:text-amber-900 px-3 py-2 rounded-md text-base font-medium transition-colors">
               Products
             </Link>
-            <Link to="/tracking" className="text-amber-700 hover:text-amber-900 px-3 py-2 rounded-md text-base font-medium transition-colors">
+            <Link to="/track" className="text-amber-900 hover:text-amber-900 px-3 py-2 rounded-md text-base font-medium transition-colors">
               Track Order
             </Link>
-            <Link to="/cart" className="relative text-amber-700 hover:text-amber-900 p-2 rounded-md transition-colors">
+            <Link to="/cart" className="relative text-amber-900 hover:text-amber-900 p-2 rounded-md transition-colors">
               <ShoppingCart size={22} />
               {state.items.length > 0 && (
                 <span className="absolute -top-1 -right-1 bg-amber-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
@@ -51,7 +51,7 @@ const Navbar = () => {
 
             {user ? (
               <div className="flex items-center space-x-3">
-                <span className="text-amber-700 text-base">Hi, {user.name}</span>
+                <span className="text-amber-900 text-base">Hi, {user.name}</span>
                 {user.isAdmin && (
                   <Link to="/admin" className="text-amber-700 hover:text-amber-900 px-3 py-2 rounded-md text-base font-medium transition-colors">
                     Admin
@@ -108,7 +108,7 @@ const Navbar = () => {
             <Link to="/products" className="block px-3 py-2 text-base text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md">
               Products
             </Link>
-            <Link to="/tracking" className="block px-3 py-2 text-base text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md">
+            <Link to="/track" className="block px-3 py-2 text-base text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md">
               Track Order
             </Link>
             <Link to="/cart" className="flex items-center px-3 py-2 text-base text-amber-700 hover:text-amber-900 hover:bg-amber-100 rounded-md">

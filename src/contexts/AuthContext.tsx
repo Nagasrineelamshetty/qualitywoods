@@ -1,9 +1,8 @@
-// src/contexts/AuthContext.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import axios from '../api/axios';
 
 type UserType = {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   isAdmin: boolean;
@@ -26,45 +25,60 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (token) {
+    const storedUser = localStorage.getItem('user');
+
+    if (token && storedUser) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      setUser(JSON.parse(storedUser));
     }
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const normalizeUser = (userData: any): UserType => ({
+    _id: userData._id || userData.id,
+    name: userData.name,
+    email: userData.email,
+    isAdmin: userData.isAdmin,
+  });
+
+  const signup = async (name: string, email: string, password: string): Promise<boolean> => {
     try {
-      const res = await axios.post('/login', { email, password });
+      const res = await axios.post('/users/signup', { name, email, password });
       const { token, user } = res.data;
 
-      if (!token || !user) throw new Error("Invalid login response");
+      if (!token || !user) {
+        console.error('Invalid signup response:', res.data);
+        return false;
+      }
 
-      localStorage.setItem('user', JSON.stringify(user));
+      const normalized = normalizeUser(user);
+      localStorage.setItem('user', JSON.stringify(normalized));
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      setUser(user);
+      setUser(normalized);
 
       return true;
-    } catch (error) {
-      console.error('Login Axios Error:', error);
+    } catch (error: any) {
+      console.error('Signup Error:', error?.response?.data?.message || error.message);
       return false;
     }
   };
 
-  const signup = async (name: string, email: string, password: string): Promise<boolean> => {
+  const login = async (email: string, password: string): Promise<boolean> => {
     try {
-      const res = await axios.post('/signup', { name, email, password });
+      const res = await axios.post('/users/login', { email, password });
       const { token, user } = res.data;
 
-      if (!token || !user) throw new Error("Invalid signup response");
+      if (!token || !user) throw new Error('Invalid login response');
 
-      localStorage.setItem('user', JSON.stringify(user));
+      const normalized = normalizeUser(user);
+      localStorage.setItem('user', JSON.stringify(normalized));
       localStorage.setItem('token', token);
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      setUser(user);
+      setUser(normalized);
 
       return true;
-    } catch (error) {
-      console.error('Signup Axios Error:', error);
+    } catch (error: any) {
+      console.error('Login Error:', error?.response?.data?.message || error.message);
       return false;
     }
   };

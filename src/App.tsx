@@ -44,7 +44,7 @@ const App = () => (
                   <Route path="/checkout" element={<Checkout />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
-                  <Route path="/tracking" element={<DeliveryTracking />} />
+                  <Route path="/track" element={<DeliveryTracking />} />
                   <Route path="/collaborative-cart/:sessionId" element={<CollaborativeCart />} />
                   <Route path="/admin" element={<AdminPanel />} />
                   <Route path="*" element={<NotFound />} />

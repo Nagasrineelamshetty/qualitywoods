@@ -4,6 +4,12 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 import mongoose from 'mongoose';
+import orderRoutes from './routes/orderRoutes'; // ✅ <-- added this
+import auth from './routes/auth'; 
+import cartRoutes from './routes/cartRoutes';
+
+import collaborationRoutes from './routes/collaborationRoutes';
+
 
 dotenv.config();
 
@@ -14,7 +20,11 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-
+//Login/Signup
+app.use('/api/users', auth); 
+//cart routes
+app.use('/api/cart', cartRoutes);
+app.use('/api/collab', collaborationRoutes);
 // 🔁 Ollama chat route
 app.post('/chat', async (req, res) => {
   const { message } = req.body;
@@ -49,6 +59,9 @@ app.post('/chat', async (req, res) => {
     res.status(500).json({ error: 'Failed to get response from Ollama' });
   }
 });
+
+// ✅ Add this line to use the orders route
+app.use('/api/orders', orderRoutes);
 
 mongoose.connect(process.env.MONGO_URI!)
   .then(() => {

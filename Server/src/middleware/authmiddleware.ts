@@ -1,12 +1,16 @@
 // src/middleware/authMiddleware.ts
 import { Request, Response, NextFunction } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
-interface AuthenticatedRequest extends Request {
-  user?: string | JwtPayload;
+export interface AuthenticatedRequest extends Request {
+  user?: {
+    id: string;
+    name: string;
+    isAdmin?: boolean;
+  };
 }
 
 export const verifyToken = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -18,8 +22,12 @@ export const verifyToken = (req: AuthenticatedRequest, res: Response, next: Next
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!);
-    req.user = decoded;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
+      id: string;
+      name: string;
+      isAdmin?: boolean;
+    };
+    req.user = { id: decoded.id, name: decoded.name, isAdmin: decoded.isAdmin };
     next();
   } catch (err) {
     return res.status(403).json({ message: 'Invalid or Expired Token' });
