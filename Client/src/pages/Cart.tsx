@@ -9,7 +9,10 @@ import { toast } from '../hooks/use-toast';
 
 const Cart = () => {
   const { state, removeItem, updateQuantity, clearCart } = useCart();
-  const { isAuthenticated } = useAuth();
+  
+  const { user } = useAuth();
+  const isAuthenticated = !!user;
+  
   const [collaborativeSession, setCollaborativeSession] = useState<string | null>(null);
 
   // Recover session on reload

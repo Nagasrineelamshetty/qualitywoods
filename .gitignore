@@ -25,4 +25,14 @@ dist-ssr
 .env*
 Server/.env
 **/.env*
+# Node modules
+Client/node_modules/
+Server/node_modules/
+
+# Build outputs
+Client/dist/
+Server/build/
+
+# Env files
+*.env
 

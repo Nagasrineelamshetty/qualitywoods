@@ -6,33 +6,41 @@ const router = express.Router();
 
 // ✅ Save or update user's cart
 router.post('/', verifyToken, async (req: AuthenticatedRequest, res) => {
-  const { items } = req.body;
-  const userId = req.user!.id;
-
   try {
-    // Validate each cart item has required fields
+    const { items } = req.body;
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+
+    console.log('📥 Incoming cart data:', items);
+
+    // 🧪 Validate each cart item
+    if (!Array.isArray(items)) {
+      return res.status(400).json({ error: 'Items must be an array' });
+    }
+
     for (const item of items) {
       if (
-        !item.productId ||
-        !item.name ||
+        typeof item.productId !== 'string' ||
+        typeof item.name !== 'string' ||
+        typeof item.image !== 'string' ||
         typeof item.price !== 'number' ||
-        !item.image ||
         typeof item.quantity !== 'number'
       ) {
         return res.status(400).json({ error: 'Invalid cart item format' });
       }
     }
 
-    let cart = await Cart.findOne({ userId });
+    // 🛠 Update or create the user's cart
+    const updatedCart = await Cart.findOneAndUpdate(
+      { userId },
+      { items },
+      { new: true, upsert: true, runValidators: true }
+    );
 
-    if (cart) {
-      cart.items = items;
-    } else {
-      cart = new Cart({ userId, items });
-    }
-
-    await cart.save();
-    res.status(200).json(cart);
+    res.status(200).json(updatedCart);
   } catch (err) {
     console.error('❌ Error saving cart:', err);
     res.status(500).json({ error: 'Failed to save cart' });
@@ -42,7 +50,13 @@ router.post('/', verifyToken, async (req: AuthenticatedRequest, res) => {
 // ✅ Fetch user's cart
 router.get('/', verifyToken, async (req: AuthenticatedRequest, res) => {
   try {
-    const cart = await Cart.findOne({ userId: req.user!.id });
+    const userId = req.user?.id;
+
+    if (!userId) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
+
+    const cart = await Cart.findOne({ userId });
     res.status(200).json(cart || { items: [] });
   } catch (err) {
     console.error('❌ Error fetching cart:', err);

@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Model } from 'mongoose';
 
 interface Customizations {
   wood?: string;
@@ -18,28 +18,60 @@ export interface CartItem {
 export interface CartDocument extends Document {
   userId: string;
   items: CartItem[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 const cartItemSchema = new Schema<CartItem>(
   {
-    productId: { type: String, required: true },
-    name: { type: String, required: true },
-    price: { type: Number, required: true },
-    image: { type: String, required: true },
-    quantity: { type: Number, required: true },
+    productId: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+      min: 0,
+    },
+    image: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    quantity: {
+      type: Number,
+      required: true,
+      min: 1,
+    },
     customizations: {
-      wood: { type: String, default: null },
-      finish: { type: String, default: null },
-      dimensions: { type: String, default: null },
+      wood: { type: String, default: '', trim: true },
+      finish: { type: String, default: '', trim: true },
+      dimensions: { type: String, default: '', trim: true },
     },
   },
   { _id: false }
 );
 
-const cartSchema = new Schema<CartDocument>({
-  userId: { type: String, required: true, unique: true },
-  items: [cartItemSchema],
-});
+const cartSchema = new Schema<CartDocument>(
+  {
+    userId: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true, // Improves lookup speed
+      trim: true,
+    },
+    items: [cartItemSchema],
+  },
+  { timestamps: true }
+);
 
-const Cart = mongoose.model<CartDocument>('Cart', cartSchema);
+const Cart: Model<CartDocument> = mongoose.model<CartDocument>('Cart', cartSchema);
+
 export default Cart;
